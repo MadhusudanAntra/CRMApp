@@ -11,5 +11,9 @@ namespace Antra.CRMApp.Core.Contract.Service
     {
         Task<IEnumerable<RegionModel>> GetAllAsync();
         Task<int> AddRegionAsync(RegionModel model);
+        Task<RegionModel> GetRegionByIdAsync(int id);
+        Task<int> InsertRegionAsync(RegionModel model);
+        Task<int> UpdateRegionAsync(RegionModel model);
+        Task<int> DeleteRegionAsync(int id);
     }
 }
