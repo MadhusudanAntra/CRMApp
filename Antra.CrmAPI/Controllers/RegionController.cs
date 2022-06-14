@@ -17,6 +17,7 @@ namespace Antra.CrmAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
+           // throw new Exception("custom exception");
             return Ok(await regionServiceAsync.GetAllAsync());
         }
 
