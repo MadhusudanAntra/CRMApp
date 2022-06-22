@@ -13,9 +13,11 @@ namespace Antra.CRMApp.Infrastructure.Service
     public class EmployeeServiceAsync : IEmployeeServiceAsync
     {
         private readonly IEmployeeRepositoryAsync employeeRepositoryAsync;
-        public EmployeeServiceAsync(IEmployeeRepositoryAsync _emp)
+        private readonly IRegionRepositoryAsync regionRepositoryAsync;
+        public EmployeeServiceAsync(IEmployeeRepositoryAsync _emp, IRegionRepositoryAsync _reg)
         {
             employeeRepositoryAsync = _emp;
+            regionRepositoryAsync = _reg;
         }
 
         public async Task<int> AddEmployeeAsync(EmployeeRequestModel employee)
@@ -62,6 +64,8 @@ namespace Antra.CRMApp.Infrastructure.Service
                     model.City = item.City;
                     model.FullName = item.FirstName + " " + item.LastName;
                     model.TitleOfCourtesy = item.TitleOfCourtesy;
+                    var region = await regionRepositoryAsync.GetByIdAsync(item.RegionId);
+                    model.RegionName = region.Name;
                     result.Add(model);
                 }
                 return result;
