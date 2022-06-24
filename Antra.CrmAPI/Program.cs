@@ -1,10 +1,12 @@
 using Antra.CrmAPI.Middleware;
 using Antra.CRMApp.Core.Contract.Repository;
 using Antra.CRMApp.Core.Contract.Service;
+using Antra.CRMApp.Core.Entity;
 using Antra.CRMApp.Infrastructure.Data;
 using Antra.CRMApp.Infrastructure.Repository;
 using Antra.CRMApp.Infrastructure.Service;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Serilog;
@@ -25,9 +27,13 @@ builder.Services.AddCors(options => {
     });
 });
 builder.Services.AddSqlServer<CrmDbContext>(builder.Configuration.GetConnectionString("OnlineCRM"));
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<CrmDbContext>().
+    AddDefaultTokenProviders();
+
 builder.Services.AddScoped<IEmployeeRepositoryAsync, EmployeeRepositoryAsync>();
 builder.Services.AddScoped<IRegionRepositoryAsync, RegionRepositoryAsync>();
 builder.Services.AddScoped<IProductRepositoryAsync, ProductRepositoryAsync>();
+builder.Services.AddScoped<IAccountRepositoryAsync,AccountRepositoryAsync>();
 
 
 
@@ -36,6 +42,7 @@ builder.Services.AddScoped<IProductRepositoryAsync, ProductRepositoryAsync>();
 builder.Services.AddScoped<IEmployeeServiceAsync, EmployeeServiceAsync>();
 builder.Services.AddScoped<IRegionServiceAsync, RegionServiceAsync>();
 builder.Services.AddScoped<IProductServiceAsync, ProductServiceAsync>();
+builder.Services.AddScoped<IAccountServiceAsync, AccountServiceAsync>();
 
 
 var app = builder.Build();
