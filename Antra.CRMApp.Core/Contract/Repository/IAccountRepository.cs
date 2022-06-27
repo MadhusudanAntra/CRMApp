@@ -12,5 +12,6 @@ namespace Antra.CRMApp.Core.Contract.Repository
     public interface IAccountRepositoryAsync:IRepositoryAsync<SignupModel>
     {
         Task<IdentityResult> SignUpAsync(SignupModel model);
+        Task<SignInResult> SignIn(LoginModel login);
     }
 }

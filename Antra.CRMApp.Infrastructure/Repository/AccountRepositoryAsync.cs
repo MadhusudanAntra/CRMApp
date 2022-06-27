@@ -14,9 +14,16 @@ namespace Antra.CRMApp.Infrastructure.Repository
     public class AccountRepositoryAsync : BaseRepository<SignupModel>, IAccountRepositoryAsync
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        public AccountRepositoryAsync(CrmDbContext _dbContext, UserManager<ApplicationUser> userManager) : base(_dbContext)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        public AccountRepositoryAsync(CrmDbContext _dbContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : base(_dbContext)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+        public async Task<SignInResult> SignIn(LoginModel login)
+        {
+           return await _signInManager.PasswordSignInAsync(login.UserName, login.Password, false, false);
         }
 
         public async Task<IdentityResult> SignUpAsync(SignupModel model)
